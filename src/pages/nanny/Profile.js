@@ -1,43 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import defaultImage from "../../assets/images/defaultprofilelady.jpg";
+import axios from "axios";
+import { loadUser } from "../../store/user/UserActions";
+
+const nannyModel = {
+  username: "",
+  email: "",
+  first_name: "",
+  last_name: "",
+  phone_number: "",
+  location: {
+    id: null,
+    address: "",
+    town: "",
+    county: "",
+  },
+  nanny: {
+    id: null,
+    availabity: false,
+    hourly_rate: 0.0,
+  },
+  image: null,
+};
 
 const Profile = () => {
   const [formValidated, setFormValidated] = useState(false);
 
-  const { loading } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    first_name: "",
-    last_name: "",
-    phone_number: "",
-    address: {
-      address: "",
-      town: "",
-      county: "",
-    },
-    nanny: {
-      availabilty: true,
-      hourlyRate: 0.0,
-    },
-    image: null,
-  });
+  const [updating, setUpdating] = useState(false);
 
-  const {
-    username,
-    email,
-    first_name,
-    last_name,
-    phone_number,
-    address,
-    nanny,
-    image,
-  } = formData;
+  const [formData, setFormData] = useState(nannyModel);
 
   const [newImage, setNewImage] = useState(null);
+
+  const dispatch = useDispatch();
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -50,6 +49,7 @@ const Profile = () => {
   }
 
   async function handleSubmit(e) {
+    setUpdating(true);
     e.preventDefault();
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
@@ -57,8 +57,45 @@ const Profile = () => {
       setFormValidated(true);
       window.scrollTo(0, 0);
     } else {
+      // update location
+
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/address/${formData.location.id}/`,
+        { ...formData.location }
+      );
+      // update nanny
+      console.log(formData.nanny);
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/nanny/${formData.nanny.id}/`,
+        { ...formData.nanny }
+      );
+      // update user
+
+      if (newImage != null) {
+        setFormData({ ...formData, image: newImage });
+      }
+
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/${formData.username}/`,
+        { ...formData },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      dispatch(loadUser({ isNanny: true }));
     }
+    setUpdating(false);
   }
+
+  useEffect(() => {
+    if ((user !== null ? user["user_type"] : "") === "nanny") {
+      setFormData({ ...nannyModel, ...user });
+    }
+  }, [user]);
+
   return (
     <div className="profile">
       <Form
@@ -74,11 +111,7 @@ const Profile = () => {
               alt=""
             />
           ) : formData.image ? (
-            <img
-              src={`${process.env.REACT_APP_API_URL}${formData.image}`}
-              name="current-image"
-              alt=""
-            />
+            <img src={`${formData.image}`} name="current-image" alt="" />
           ) : (
             <img src={defaultImage} name="current-image" alt="" />
           )}
@@ -87,6 +120,13 @@ const Profile = () => {
           type="switch"
           id="custom-switch"
           label="Available"
+          checked={formData.nanny.availabity}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              nanny: { ...formData.nanny, availabity: e.target.checked },
+            })
+          }
         />
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="4">
@@ -116,7 +156,7 @@ const Profile = () => {
               name="first_name"
               required
               maxLength={64}
-              value={first_name}
+              value={formData.first_name}
               onChange={(e) => onChange(e)}
             />
             <Form.Control.Feedback type="invalid">
@@ -135,7 +175,7 @@ const Profile = () => {
               name="last_name"
               required
               maxLength={64}
-              value={last_name}
+              value={formData.last_name}
               onChange={(e) => onChange(e)}
             />
             <Form.Control.Feedback type="invalid">
@@ -155,7 +195,7 @@ const Profile = () => {
               required
               disabled
               maxLength={64}
-              value={email}
+              value={formData.email}
               onChange={(e) => onChange(e)}
             />
             <Form.Control.Feedback type="invalid">
@@ -174,7 +214,7 @@ const Profile = () => {
               name="phone_number"
               required
               maxLength={15}
-              value={phone_number}
+              value={formData.phone_number}
               onChange={(e) => onChange(e)}
             />
             <Form.Control.Feedback type="invalid">
@@ -194,7 +234,7 @@ const Profile = () => {
               required
               disabled
               maxLength={64}
-              value={username}
+              value={formData.username}
               onChange={(e) => onChange(e)}
             />
 
@@ -214,12 +254,12 @@ const Profile = () => {
               type="text"
               name="address"
               maxLength={120}
-              value={address.address}
+              value={formData.location.address}
               required
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  address: { ...address, address: e.target.value },
+                  location: { ...formData.location, address: e.target.value },
                 })
               }
             />
@@ -238,12 +278,12 @@ const Profile = () => {
               type="text"
               name="town"
               maxLength={32}
-              value={address.town}
+              value={formData.location.town}
               required
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  address: { ...address, town: e.target.value },
+                  location: { ...formData.location, town: e.target.value },
                 })
               }
             />
@@ -262,12 +302,12 @@ const Profile = () => {
               type="text"
               name="county"
               maxLength={32}
-              value={address.county}
+              value={formData.location.county}
               required
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  address: { ...address, county: e.target.value },
+                  location: { ...formData.location, county: e.target.value },
                 })
               }
             />
@@ -285,21 +325,26 @@ const Profile = () => {
           <Col sm="7">
             <Form.Control
               type="number"
-              name="hourlyRate"
+              name="hourly_rate"
               maxLength={4}
-              value={nanny.hourlyRate}
+              value={formData.nanny.hourly_rate}
               onChange={(e) =>
                 setFormData({
                   ...formData,
-                  nanny: { ...nanny, hourlyRate: e.target.value },
+                  nanny: { ...formData.nanny, hourly_rate: e.target.value },
                 })
               }
             />
           </Col>
         </Form.Group>
 
-        <Button className="form-submit-btn" variant="primary" type="submit">
-          {loading ? "Updating...." : "Update"}
+        <Button
+          disabled={updating}
+          className="form-submit-btn"
+          variant="primary"
+          type="submit"
+        >
+          {updating ? "Updating...." : "Update"}
         </Button>
       </Form>
     </div>

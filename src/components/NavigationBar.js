@@ -17,9 +17,13 @@ const NavigationBar = () => {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           {isAuthenticated ? (
-            <Navbar.Text>
-              Logged in as {user["user_type"] === "nanny" ? "Nanny" : "Fammily"}{" "}
-            </Navbar.Text>
+            <>
+              <Navbar.Text> {user["username"]}</Navbar.Text>
+              <Navbar.Text>
+                Logged in as{" "}
+                {user["user_type"] === "nanny" ? "Nanny" : "Family"}{" "}
+              </Navbar.Text>
+            </>
           ) : (
             <></>
           )}
