@@ -28,6 +28,10 @@
   color: #61dafb;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +39,169 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.navbar {
+  background-color: aliceblue;
+}
+
+.authpage {
+  height: 100vh;
+  background-color: aliceblue;
+  margin: 0;
+}
+
+.authpage .container {
+  position: absolute;
+  top: 15%;
+  left: 6%;
+}
+
+.authform {
+  background-color: white;
+  padding: 25px;
+  text-align: left;
+  height: 70vh;
+}
+
+.authform .form-submit-btn {
+  display: block;
+  width: 80%;
+}
+
+.auth-Image {
+  background-image: url("assets/images/nannyimage.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.auth-Image .overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.auth-Image h4 {
+  color: white;
+  position: absolute;
+  bottom: 5%;
+  font-size: 35px;
+}
+
+.signupForm {
+  height: 100% !important;
+}
+
+.signupForm .mb-3 {
+  margin-bottom: 0.2rem !important;
+}
+
+.dashboard-nav {
+  border-right: 1px solid;
+  padding: 20px 0px;
+}
+
+.dashboard-nav .btn {
+  display: block;
+  border: none;
+  width: 100%;
+  border-radius: 0;
+  border-bottom: 1px solid;
+  text-align: justify;
+}
+
+.profile {
+  text-align: end;
+  padding: 20px;
+}
+
+.profile .form-switch {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile .form-switch .form-check-input {
+  margin-right: 20px;
+}
+
+.avatar {
+  height: 100px;
+  width: 100px;
+  border: 1px solid;
+  border-radius: 46px;
+  margin: 15px;
+  position: relative;
+  left: 35%;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 46px;
+}
+
+.profile .btn {
+  display: block;
+  width: 25%;
+  position: relative;
+  left: 40%;
+}
+
+.filter > * {
+  margin: 10px 0;
+}
+
+.filter .searchDiv {
+  display: flex;
+}
+
+.filter .dateDiv {
+  display: flex;
+}
+
+.dateInput {
+  border: 1px solid silver;
+}
+
+.filter .input-group {
+  flex-wrap: nowrap;
+}
+
+.listNannies {
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.listNannies h3 {
+  text-align: left;
+}
+
+.nannyContainer {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-bottom: 1px dotted rgb(154 154 154);
+}
+
+.nannyContainer .avatar {
+  position: static;
+  height: 80px;
+  width: 80px;
+  border-radius: 50px;
+}
+
+.nannyContainer .nannydetails {
+  text-align: left;
+  padding: 10px;
+}
+
+.nannyContainer .nannyactions {
+  display: grid;
+}
+
+.nannyContainer .nannyactions > * {
+  margin-bottom: 8px;
 }

@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/login/LoginPage";
+import SignupPage from "./pages/signup/SignupPage";
+import NannySignupPage from "./pages/signup/NannySignUpPage";
+import NavigationBar from "./components/NavigationBar";
+import NannyDashBoard from "./pages/nanny/NannyDashBoard";
+import FamilyDashboard from "./pages/family/FamilyDashboard";
+import { useEffect } from "react";
+import { checkIsAuthenticated } from "./store/user/UserActions";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkIsAuthenticated());
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <NavigationBar />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/signup_nanny" element={<NannySignupPage />} />
+          <Route path="/dashboard" element={<FamilyDashboard />} />
+          <Route path="/dashboard/:pagename" element={<FamilyDashboard />} />
+          <Route path="/dashboard_nanny" element={<NannyDashBoard />} />
+          <Route
+            path="/dashboard_nanny/:pagename"
+            element={<NannyDashBoard />}
+          />
+        </Routes>
+      </Router>
     </div>
   );
 }
