@@ -16,6 +16,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkIsAuthenticated());
+    // eslint-disable-next-line
   }, []);
   return (
     <div className="App">

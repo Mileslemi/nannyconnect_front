@@ -106,8 +106,6 @@ export const loadUser =
 
       const userData = response.data;
 
-      console.log(userData);
-
       if (isNanny) {
         if (userData["user_type"] !== "nanny") {
           throw new Error("Invalid Credentials");
@@ -127,7 +125,6 @@ export const loadUser =
         payload: userData,
       });
     } catch (error) {
-      console.log("error", error);
       dispatch({
         type: LOAD_USER_REJECTED,
         error: error?.message,

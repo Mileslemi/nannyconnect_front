@@ -37,6 +37,7 @@ const FamilyDashboard = () => {
         setCurrentPage(index);
       }
     }
+    // eslint-disable-next-line
   }, [pagename]);
 
   useEffect(() => {
@@ -46,6 +47,7 @@ const FamilyDashboard = () => {
     ) {
       navigate("/");
     }
+    // eslint-disable-next-line
   }, [isAuthenticated, user]);
 
   return (

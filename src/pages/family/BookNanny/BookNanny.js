@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Alert, Form, InputGroup } from "react-bootstrap";
 import NannyContainer from "./NannyContainer";
+import axios from "axios";
 
 const BookNanny = () => {
   const [name, setSearchName] = useState("");
@@ -10,6 +11,42 @@ const BookNanny = () => {
   const [startTime, setStartTime] = useState(null);
 
   const [endTime, setEndTime] = useState(null);
+
+  const [nannies, setNannies] = useState([]);
+
+  const [fetcthing, setFetching] = useState(false);
+
+  const [showError, setShowError] = useState(false);
+
+  async function fetchNannies() {
+    setFetching(true);
+    try {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/filter_nannies/`, {
+          location: location,
+          name: name,
+          start_time: startTime,
+          end_time: endTime,
+        })
+        .catch((_) => {
+          setShowError(true);
+        })
+        .then((response) => {
+          console.log(response);
+          if (response && response.status === 200) {
+            setNannies(response.data);
+          } else {
+            setShowError(true);
+          }
+        });
+    } catch (_) {}
+    setFetching(false);
+  }
+
+  useEffect(() => {
+    fetchNannies();
+    // eslint-disable-next-line
+  }, [name, location, startTime, endTime]);
 
   return (
     <div>
@@ -48,7 +85,7 @@ const BookNanny = () => {
               name="fromtime"
               className="dateInput"
               onChange={(e) => {
-                console.log(e.target.value);
+                setStartTime(new Date(e.target.value).toISOString());
               }}
             />
           </InputGroup>
@@ -60,7 +97,7 @@ const BookNanny = () => {
               name="totime"
               className="dateInput"
               onChange={(e) => {
-                console.log(e.target.value);
+                setEndTime(new Date(e.target.value).toISOString());
               }}
             />
           </InputGroup>
@@ -68,12 +105,24 @@ const BookNanny = () => {
       </div>
       <div className="listNannies">
         <h3>Nannies</h3>
-        {<NannyContainer />}
-        {<NannyContainer />}
-        {<NannyContainer />}
-        {<NannyContainer />}
-        {<NannyContainer />}
-        {<NannyContainer />}
+        {showError && (
+          <Alert
+            variant="danger"
+            onClose={() => {
+              setShowError(false);
+            }}
+            dismissible
+          >
+            <Alert.Heading>Error Fetching Nannies.</Alert.Heading>
+          </Alert>
+        )}
+        {fetcthing ? (
+          <>Fetching...</>
+        ) : (
+          nannies.map((e, i) => {
+            return <NannyContainer key={i} nanny={e} />;
+          })
+        )}
       </div>
     </div>
   );

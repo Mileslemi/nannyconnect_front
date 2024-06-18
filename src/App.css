@@ -202,10 +202,10 @@ a {
   padding: 10px;
 }
 
-.nannyContainer .nannyactions {
+.nannyContainer .nannyactions form {
   display: grid;
 }
 
-.nannyContainer .nannyactions > * {
+.nannyContainer .nannyactions form > * {
   margin-bottom: 8px;
 }

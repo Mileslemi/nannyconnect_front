@@ -63,8 +63,6 @@ const NannySignupPage = () => {
         setFormValidated(false);
 
         dispatch(create_address(address)).then((response) => {
-          console.log(response);
-
           if (response.payload) {
             const locale = response.payload;
             dispatch(
@@ -80,7 +78,6 @@ const NannySignupPage = () => {
                 user_type: "nanny",
               })
             ).then((response) => {
-              console.log(response);
               window.scrollTo(0, 0);
 
               if (response.payload) {

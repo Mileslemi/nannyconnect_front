@@ -41,10 +41,8 @@ const LoginPage = () => {
   if (isAuthenticated) {
     //   depending on if user is nanny or family redirect appopriately
     if (JSON.parse(localStorage.getItem("isNanny"))) {
-      console.log("going to nanny");
       return <Navigate to={"/dashboard_nanny"} />;
     } else {
-      console.log("going to family");
       return <Navigate to={"/dashboard"} />;
     }
   }

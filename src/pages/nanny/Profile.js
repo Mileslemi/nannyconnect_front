@@ -64,7 +64,6 @@ const Profile = () => {
         { ...formData.location }
       );
       // update nanny
-      console.log(formData.nanny);
       await axios.put(
         `${process.env.REACT_APP_API_URL}/nanny/${formData.nanny.id}/`,
         { ...formData.nanny }
