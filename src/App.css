@@ -209,3 +209,17 @@ a {
 .nannyContainer .nannyactions form > * {
   margin-bottom: 8px;
 }
+
+.requestedBookings td .btn {
+  display: block;
+  width: 100%;
+  margin: 4px;
+}
+
+.bookingDetailsButtons {
+  display: flex;
+}
+
+.bookingDetailsButtons .btn {
+  margin: 0 10px;
+}

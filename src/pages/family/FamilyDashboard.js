@@ -15,6 +15,13 @@ const FamilyDashboard = () => {
 
   const navigate = useNavigate();
 
+  if (
+    !(isAuthenticated ?? false) ||
+    (user !== null ? user["user_type"] : "") !== "family"
+  ) {
+    navigate("/");
+  }
+
   const pages = [
     { name: "Bookings", rep: "bookings", page: <FamilyBookings /> },
     { name: "Book Nanny", rep: "booknanny", page: <BookNanny /> },
@@ -40,15 +47,15 @@ const FamilyDashboard = () => {
     // eslint-disable-next-line
   }, [pagename]);
 
-  useEffect(() => {
-    if (
-      !(isAuthenticated ?? false) ||
-      (user !== null ? user["user_type"] : "") !== "family"
-    ) {
-      navigate("/");
-    }
-    // eslint-disable-next-line
-  }, [isAuthenticated, user]);
+  // useEffect(() => {
+  //   if (
+  //     !(isAuthenticated ?? false) ||
+  //     (user !== null ? user["user_type"] : "") !== "family"
+  //   ) {
+  //     navigate("/");
+  //   }
+  //   // eslint-disable-next-line
+  // }, [isAuthenticated, user]);
 
   return (
     <div className="dashboard">

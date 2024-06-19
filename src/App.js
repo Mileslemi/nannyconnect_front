@@ -10,6 +10,8 @@ import FamilyDashboard from "./pages/family/FamilyDashboard";
 import { useEffect } from "react";
 import { checkIsAuthenticated } from "./store/user/UserActions";
 import { useDispatch } from "react-redux";
+import BookingDetail from "./pages/nanny/BookingDetail";
+import FBookingDetail from "./pages/family/FBookingDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,13 +25,28 @@ function App() {
       <Router>
         <NavigationBar />
         <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/signup_nanny" element={<NannySignupPage />} />
-          <Route path="/dashboard" element={<FamilyDashboard />} />
-          <Route path="/dashboard/:pagename" element={<FamilyDashboard />} />
-          <Route path="/dashboard_nanny" element={<NannyDashBoard />} />
+          <Route exact path="/" element={<LoginPage />} />
+          <Route exact path="/signup" element={<SignupPage />} />
+          <Route exact path="/signup_nanny" element={<NannySignupPage />} />
+          <Route exact path="/dashboard" element={<FamilyDashboard />} />
           <Route
+            exact
+            path="/dashboard/requests/:id"
+            element={<FBookingDetail />}
+          />
+          <Route
+            exact
+            path="/dashboard/:pagename"
+            element={<FamilyDashboard />}
+          />
+          <Route exact path="/dashboard_nanny" element={<NannyDashBoard />} />
+          <Route
+            exact
+            path="/dashboard_nanny/requests/:id"
+            element={<BookingDetail />}
+          />
+          <Route
+            exact
             path="/dashboard_nanny/:pagename"
             element={<NannyDashBoard />}
           />

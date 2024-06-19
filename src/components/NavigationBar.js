@@ -13,7 +13,17 @@ const NavigationBar = () => {
   return (
     <Navbar>
       <Container>
-        <Navbar.Brand href="#">Nanny Connect</Navbar.Brand>
+        <Navbar.Brand
+          href={
+            isAuthenticated
+              ? user?.user_type === "nanny"
+                ? "/dashboard_nanny"
+                : "/dashboard"
+              : "/"
+          }
+        >
+          Nanny Connect
+        </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           {isAuthenticated ? (

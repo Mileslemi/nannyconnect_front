@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Form, InputGroup } from "react-bootstrap";
-import defaultImage from "../..//../assets/images/defaultprofilelady.jpg";
+import defaultImage from "../../../assets/images/defaultprofilelady.jpg";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const NannyContainer = ({ nanny }) => {
   const { id, availabity, hourly_rate, user } = nanny;
 
-  const userId = useSelector((state) => state.user.user.id);
+  const userId = useSelector((state) => state.user?.user?.id);
 
   const [availability, setAvailability] = useState(availabity ?? false);
 
@@ -44,7 +44,6 @@ const NannyContainer = ({ nanny }) => {
             setAvailability(availabity ?? false);
           })
           .then((response) => {
-            console.log(response);
             if (response && response.status === 200) {
               navigate("/dashboard/bookings");
             } else {

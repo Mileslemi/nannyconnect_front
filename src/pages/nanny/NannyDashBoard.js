@@ -15,6 +15,13 @@ const NannyDashBoard = () => {
 
   const navigate = useNavigate();
 
+  if (
+    !(isAuthenticated ?? false) ||
+    (user !== null ? user["user_type"] : "") !== "nanny"
+  ) {
+    navigate("/");
+  }
+
   const pages = [
     { name: "Bookings", rep: "bookings", page: <Bookings /> },
     { name: "Requests", rep: "requests", page: <RequestedBookings /> },
@@ -40,15 +47,15 @@ const NannyDashBoard = () => {
     // eslint-disable-next-line
   }, [pagename]);
 
-  useEffect(() => {
-    if (
-      !(isAuthenticated ?? false) ||
-      (user !== null ? user["user_type"] : "") !== "nanny"
-    ) {
-      navigate("/");
-    }
-    // eslint-disable-next-line
-  }, [isAuthenticated, user]);
+  // useEffect(() => {
+  //   if (
+  //     !(isAuthenticated ?? false) ||
+  //     (user !== null ? user["user_type"] : "") !== "nanny"
+  //   ) {
+  //     navigate("/");
+  //   }
+  //   // eslint-disable-next-line
+  // }, [isAuthenticated, user]);
 
   return (
     <div className="dashboard">

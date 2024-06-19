@@ -1,9 +1,38 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const RequestedBookings = () => {
+  const userId = useSelector((state) => state.user?.user?.nanny?.id);
+
+  const [bookings, setBookings] = useState([]);
+
+  async function fetchBookings() {
+    try {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/filter_bookings/`, {
+          id: userId,
+          is_nanny: true,
+          pending: true,
+        })
+        .catch((_) => {})
+        .then((response) => {
+          if (response && response.status === 200) {
+            console.log(response.data);
+            setBookings(response.data);
+          }
+        });
+    } catch (_) {}
+  }
+  useEffect(() => {
+    fetchBookings();
+    // eslint-disable-next-line
+  }, [userId]);
+
   return (
-    <div>
+    <div className="requestedBookings">
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -11,21 +40,50 @@ const RequestedBookings = () => {
             <th>Family</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Hourly Rate (Ksh)</th>
+            <th>Offered Hourly Rate (Ksh)</th>
             <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark Otto</td>
-            <td>24th June 2024 10:00a.m.</td>
-            <td>24th June 2024 18:00p.m.</td>
-            <td>200</td>
-            <td>
-              <Button>Accept</Button>
-            </td>
-          </tr>
+          {bookings.map((e, i) => {
+            // const start_time =  new Date(e.start_time).toString();
+            return (
+              <tr key={i}>
+                <td>{e?.id}</td>
+                <td>{e?.user?.first_name + " " + e?.user?.last_name}</td>
+                <td>
+                  {new Date(e?.start_time).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    weekday: "long",
+                    hour: "2-digit",
+                    hour12: false,
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
+                </td>
+                <td>
+                  {new Date(e?.end_time).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                    weekday: "long",
+                    hour: "2-digit",
+                    hour12: false,
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
+                </td>
+                <td>{e?.negotiated_hourly_rate}</td>
+                <td>
+                  <Link as={Button} to={`/dashboard_nanny/requests/${e.id}`}>
+                    More
+                  </Link>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
     </div>
