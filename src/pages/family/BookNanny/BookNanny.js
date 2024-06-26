@@ -32,7 +32,6 @@ const BookNanny = () => {
           setShowError(true);
         })
         .then((response) => {
-          console.log(response);
           if (response && response.status === 200) {
             setNannies(response.data);
           } else {
@@ -104,7 +103,7 @@ const BookNanny = () => {
         </div>
       </div>
       <div className="listNannies">
-        <h3>Nannies</h3>
+        <h3>Find Nanny</h3>
         {showError && (
           <Alert
             variant="danger"

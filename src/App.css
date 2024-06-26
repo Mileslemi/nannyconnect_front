@@ -190,6 +190,10 @@ a {
   border-bottom: 1px dotted rgb(154 154 154);
 }
 
+.nannyContainer:hover {
+  cursor: pointer;
+}
+
 .nannyContainer .avatar {
   position: static;
   height: 80px;
@@ -202,11 +206,11 @@ a {
   padding: 10px;
 }
 
-.nannyContainer .nannyactions form {
-  display: grid;
+.nannyactions {
+  margin-top: 20px !important;
 }
 
-.nannyContainer .nannyactions form > * {
+.nannyactions form > * {
   margin-bottom: 8px;
 }
 
@@ -229,4 +233,42 @@ a {
   border: none !important;
   position: static !important;
   width: 5% !important;
+}
+
+.bioDiv {
+  text-align: left;
+  margin-top: 10px;
+}
+
+.bioDiv p {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.nannyPage {
+  text-align: left;
+}
+
+.nannyPage .btn {
+  width: 90%;
+}
+
+.nanny_detail_image {
+  width: 100%;
+  margin: 10px;
+}
+
+.nanny_detail_image img {
+  width: 100%;
+}
+
+.nameAndRate {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nanny_detail_ratings {
+  color: darkmagenta;
 }

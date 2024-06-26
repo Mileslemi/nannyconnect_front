@@ -12,6 +12,7 @@ import { checkIsAuthenticated } from "./store/user/UserActions";
 import { useDispatch } from "react-redux";
 import BookingDetail from "./pages/nanny/BookingDetail";
 import FBookingDetail from "./pages/family/FBookingDetail";
+import NannyPage from "./pages/family/BookNanny/NannyPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -33,6 +34,11 @@ function App() {
             exact
             path="/dashboard/requests/:id"
             element={<FBookingDetail />}
+          />
+          <Route
+            exact
+            path="/dashboard/booknanny/:id"
+            element={<NannyPage />}
           />
           <Route
             exact

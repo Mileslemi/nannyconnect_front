@@ -22,7 +22,7 @@ const NavigationBar = () => {
               : "/"
           }
         >
-          Nanny Connect
+          Tender Ties
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
