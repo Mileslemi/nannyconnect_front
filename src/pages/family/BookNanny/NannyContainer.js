@@ -8,12 +8,10 @@ import starFill from "../../../assets/icons/star-fill.svg";
 const NannyContainer = ({ nanny }) => {
   const {
     id,
-    availabity,
     hourly_rate,
     user,
     bio,
-    verified,
-    suspended,
+
     reviews,
   } = nanny;
 

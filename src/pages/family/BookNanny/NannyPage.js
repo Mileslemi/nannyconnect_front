@@ -135,6 +135,7 @@ const NannyPage = () => {
 
   useEffect(() => {
     fetchNannyDetail();
+    // eslint-disable-next-line
   }, [id]);
 
   return (

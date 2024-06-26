@@ -5,6 +5,7 @@ import Bookings from "./Bookings";
 import RequestedBookings from "./RequestedBookings";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import FinishVerification from "./FinishVerification";
 
 const NannyDashBoard = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -25,7 +26,14 @@ const NannyDashBoard = () => {
   const pages = [
     { name: "Bookings", rep: "bookings", page: <Bookings /> },
     { name: "Requests", rep: "requests", page: <RequestedBookings /> },
+    { name: "Chats", rep: "chats", page: <RequestedBookings /> },
+    { name: "Schedule", rep: "schedule", page: <RequestedBookings /> },
     { name: "Profile", rep: "profile", page: <Profile /> },
+    {
+      name: "A/C Verification",
+      rep: "verify",
+      page: <FinishVerification />,
+    },
   ];
 
   const handleClick = (index, str) => {

@@ -272,3 +272,11 @@ a {
 .nanny_detail_ratings {
   color: darkmagenta;
 }
+
+.uploadForm {
+  margin-top: 20px;
+}
+
+.uploadForm .btn {
+  width: 50%;
+}
