@@ -223,3 +223,10 @@ a {
 .bookingDetailsButtons .btn {
   margin: 0 10px;
 }
+
+.star-rating {
+  background-color: transparent !important;
+  border: none !important;
+  position: static !important;
+  width: 5% !important;
+}

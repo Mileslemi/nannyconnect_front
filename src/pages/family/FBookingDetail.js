@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import defaultImage from "../../assets/images/defaultprofilelady.jpg";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import star from "../../assets/icons/star.svg";
+import starFill from "../../assets/icons/star-fill.svg";
 
 const bookingModel = {
   id: null,
@@ -18,6 +20,15 @@ const bookingModel = {
 
 const FBookingDetail = () => {
   const { isAuthenticated } = useSelector((state) => state.user);
+
+  const [payment, setPayment] = useState("mpesa");
+
+  const [formData, setFormData] = useState({
+    review: "N/A",
+    rating: 4.7,
+  });
+
+  const { review, rating } = formData;
 
   const navigate = useNavigate();
 
@@ -64,6 +75,35 @@ const FBookingDetail = () => {
     setLoading(false);
   }
 
+  async function payJob() {
+    setLoading(true);
+
+    try {
+      await axios
+        .put(`${process.env.REACT_APP_API_URL}/bookings/${id}/`, {
+          ...bookingDetail,
+          status: "done",
+          user: bookingDetail.user?.id,
+          nanny: bookingDetail.nanny?.id,
+        })
+        .catch((_) => {})
+        .then(async (response) => {
+          if (response && response.status === 200) {
+            // if successfully paid, add review.
+            await axios
+              .post(`${process.env.REACT_APP_API_URL}/add_review/`, {
+                ...formData,
+                reviewer: bookingDetail.user?.id,
+                nanny_id: bookingDetail.nanny?.id,
+              })
+              .catch((_) => {});
+            navigate("/dashboard");
+          }
+        });
+    } catch (_) {}
+    setLoading(false);
+  }
+
   useEffect(() => {
     fetchBookingDetail();
     // eslint-disable-next-line
@@ -103,7 +143,7 @@ const FBookingDetail = () => {
             />
           </Col>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
+        {/* <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="4">
             Zip
           </Form.Label>
@@ -147,7 +187,7 @@ const FBookingDetail = () => {
               disabled
             />
           </Col>
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="4">
@@ -235,6 +275,76 @@ const FBookingDetail = () => {
             ></textarea>
           </Col>
         </Form.Group>
+        {bookingDetail.status === "confirmed" ? (
+          <>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Rating
+              </Form.Label>
+              <Col sm="7" style={{ display: "flex" }}>
+                {[1, 2, 3, 4, 5].map((e, i) => (
+                  <Button
+                    className="star-rating"
+                    onClick={() => setFormData({ ...formData, rating: e })}
+                  >
+                    <img
+                      src={i + 1 <= rating ? starFill : star}
+                      alt="bootstrap"
+                      width="25"
+                      height="25"
+                    />
+                  </Button>
+                ))}
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Comments
+              </Form.Label>
+
+              <Col sm="7">
+                <textarea
+                  placeholder="Give you comments on the nanny's job..."
+                  name="comment"
+                  className="form-control"
+                  value={review}
+                  rows={4}
+                  onChange={(e) =>
+                    setFormData({ ...formData, review: e.target.value })
+                  }
+                ></textarea>
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Payment Option
+              </Form.Label>
+              <Col sm="7" style={{ display: "flex", justifyContent: "center" }}>
+                <Form.Check
+                  inline
+                  label="M-Pesa"
+                  name="group1"
+                  type="radio"
+                  checked={payment === "mpesa"}
+                  onChange={(e) => setPayment("mpesa")}
+                  id={`inline-radio-2`}
+                />
+                <Form.Check
+                  inline
+                  label="PayPal"
+                  checked={payment === "paypal"}
+                  name="group1"
+                  type="radio"
+                  onChange={(e) => setPayment("paypal")}
+                  id={`inline-radio-1`}
+                />
+              </Col>
+            </Form.Group>
+          </>
+        ) : (
+          <></>
+        )}
         {bookingDetail.status === "pending" ? (
           <div className="bookingDetailsButtons">
             <Button
@@ -244,6 +354,17 @@ const FBookingDetail = () => {
               onClick={() => cancelJob()}
             >
               {loading ? "Wait ..." : "Cancel"}
+            </Button>
+          </div>
+        ) : bookingDetail.status === "confirmed" ? (
+          <div className="bookingDetailsButtons">
+            <Button
+              className="form-submit-btn"
+              variant="primary"
+              disabled={loading}
+              onClick={() => payJob()}
+            >
+              {loading ? "Wait ..." : "Pay"}
             </Button>
           </div>
         ) : (
