@@ -29,6 +29,8 @@ const BookingDetail = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [complaint, setComplaint] = useState(null);
+
   const { id } = useParams();
 
   async function fetchBookingDetail() {
@@ -82,6 +84,26 @@ const BookingDetail = () => {
     } catch (_) {}
   }
 
+  async function makeComplaint() {
+    setLoading(true);
+    try {
+      if (complaint && complaint.length > 25) {
+        await axios
+          .post(`${process.env.REACT_APP_API_URL}/complaints/`, {
+            booking: bookingDetail?.id,
+            complaint: complaint,
+          })
+          .catch((_) => {})
+          .then((response) => {
+            if (response && response.status === 200) {
+              navigate("/dashboard_nanny/bookings");
+            }
+          });
+      }
+    } catch (_) {}
+    setLoading(false);
+  }
+
   useEffect(() => {
     fetchBookingDetail();
     // eslint-disable-next-line
@@ -101,6 +123,22 @@ const BookingDetail = () => {
             <img src={defaultImage} name="current-image" alt="" />
           )}
         </div>
+
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm="4">
+            Status
+          </Form.Label>
+
+          <Col sm="7">
+            <Form.Control
+              type="text"
+              name="status"
+              disabled
+              maxLength={64}
+              value={bookingDetail.status}
+            />
+          </Col>
+        </Form.Group>
 
         <Form.Group as={Row} className="mb-3">
           <Form.Label column sm="4">
@@ -253,24 +291,61 @@ const BookingDetail = () => {
             ></textarea>
           </Col>
         </Form.Group>
-        <div className="bookingDetailsButtons">
-          <Button
-            className="form-submit-btn"
-            variant="primary"
-            disabled={loading || bookingDetail.status !== "pending"}
-            onClick={() => acceptJob()}
-          >
-            {loading ? "Wait ..." : "Accept"}
-          </Button>
-          <Button
-            className="form-submit-btn"
-            variant="warning"
-            disabled={bookingDetail.status !== "pending"}
-            onClick={() => rejectJob()}
-          >
-            Reject
-          </Button>
-        </div>
+        {loading || bookingDetail.status !== "pending" ? (
+          <></>
+        ) : (
+          <div className="bookingDetailsButtons">
+            <Button
+              className="form-submit-btn"
+              variant="primary"
+              disabled={loading || bookingDetail.status !== "pending"}
+              onClick={() => acceptJob()}
+            >
+              {loading ? "Wait ..." : "Accept"}
+            </Button>
+            <Button
+              className="form-submit-btn"
+              variant="warning"
+              disabled={bookingDetail.status !== "pending"}
+              onClick={() => rejectJob()}
+            >
+              Reject
+            </Button>
+          </div>
+        )}
+        {loading ||
+        bookingDetail.status === "confirmed" ||
+        bookingDetail.status === "done" ? (
+          <div className="complaints_div">
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column sm="4">
+                Complaint
+              </Form.Label>
+
+              <Col sm="7">
+                <textarea
+                  placeholder="Write your complaint in no less than 25 words. Please don't raise issue more than once on same booking...."
+                  name="complaint"
+                  className="form-control"
+                  value={complaint}
+                  rows={4}
+                  onChange={(e) => {
+                    setComplaint(e.target.value);
+                  }}
+                ></textarea>
+              </Col>
+            </Form.Group>
+            <Button
+              className="form-submit-btn"
+              variant="warning"
+              onClick={() => makeComplaint()}
+            >
+              Raise Issue
+            </Button>
+          </div>
+        ) : (
+          <></>
+        )}
       </Form>
     </div>
   );
