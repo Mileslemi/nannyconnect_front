@@ -11,7 +11,7 @@ import {
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const checkIsAuthenticated = () => async (dispatch) => {
-  if (localStorage.getItem("access") && localStorage.getItem("isNanny")) {
+  if (localStorage.getItem("access")) {
     const isNanny = JSON.parse(localStorage.getItem("isNanny") || false);
     const config = {
       headers: {
@@ -28,6 +28,7 @@ export const checkIsAuthenticated = () => async (dispatch) => {
         body,
         config
       );
+
       if (response && response.data.code !== "token_not_valid") {
         dispatch({
           type: AUTH_SUCCESS,

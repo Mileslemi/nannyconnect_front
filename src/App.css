@@ -435,3 +435,48 @@ a {
   -webkit-line-clamp: 1;
   display: inline;
 }
+
+.nanny_detail_container {
+  margin-bottom: 45px;
+}
+
+.nanny_detail_actions .btn {
+  margin: 10px;
+}
+
+.nanny_detail_reviews {
+  max-height: 70vh;
+  text-align: left;
+  padding: 5px;
+}
+
+.nanny_detail_review {
+  width: 60%;
+  padding: 2px;
+  border: 1px solid #eaecea;
+}
+
+.nanny_detail_review_rating {
+  text-align: end;
+  margin: 3px;
+}
+
+.nanny_detail_actions {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.complaint_detail_actions {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.complaint_detail_actions .btn {
+  margin: 10px;
+}

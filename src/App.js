@@ -16,6 +16,8 @@ import NannyPage from "./pages/family/BookNanny/NannyPage";
 import MessagingPage from "./components/MessagingPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import FamiliyDetail from "./pages/admin/FamiliyDetail";
+import NannyDetail from "./pages/admin/NannyDetail";
+import ComplainDetail from "./pages/admin/ComplainDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,6 +76,16 @@ function App() {
             exact
             path="/dashboard_admin/families/:username"
             element={<FamiliyDetail />}
+          />
+          <Route
+            exact
+            path="/dashboard_admin/nannies/:id"
+            element={<NannyDetail />}
+          />
+          <Route
+            exact
+            path="/dashboard_admin/complaints/:id"
+            element={<ComplainDetail />}
           />
           <Route
             exact

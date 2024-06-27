@@ -16,7 +16,9 @@ const NavigationBar = () => {
         <Navbar.Brand
           href={
             isAuthenticated
-              ? user?.user_type === "nanny"
+              ? user.is_staff
+                ? "/dashboard_admin"
+                : user?.user_type === "nanny"
                 ? "/dashboard_nanny"
                 : "/dashboard"
               : "/"
