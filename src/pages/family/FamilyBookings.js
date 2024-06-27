@@ -52,26 +52,24 @@ const FamilyBookings = () => {
                 </td>
                 <td>
                   {new Date(e?.start_time).toLocaleDateString(undefined, {
-                    year: "numeric",
+                    year: "2-digit",
                     month: "2-digit",
                     day: "2-digit",
-                    weekday: "long",
+                    weekday: "short",
                     hour: "2-digit",
-                    hour12: false,
+                    hour12: true,
                     minute: "2-digit",
-                    second: "2-digit",
                   })}
                 </td>
                 <td>
                   {new Date(e?.end_time).toLocaleDateString(undefined, {
-                    year: "numeric",
+                    year: "2-digit",
                     month: "2-digit",
                     day: "2-digit",
-                    weekday: "long",
+                    weekday: "short",
                     hour: "2-digit",
-                    hour12: false,
+                    hour12: true,
                     minute: "2-digit",
-                    second: "2-digit",
                   })}
                 </td>
                 <td>{e?.negotiated_hourly_rate}</td>

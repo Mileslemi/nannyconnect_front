@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   const dispatch = useDispatch();
 
-  const { loading, isAuthenticated, error } = useSelector(
+  const { loading, isAuthenticated, error, user } = useSelector(
     (state) => state.user
   );
 
@@ -39,11 +39,15 @@ const LoginPage = () => {
   }
 
   if (isAuthenticated) {
-    //   depending on if user is nanny or family redirect appopriately
-    if (JSON.parse(localStorage.getItem("isNanny"))) {
-      return <Navigate to={"/dashboard_nanny"} />;
+    if (user["is_staff"]) {
+      return <Navigate to={"/dashboard_admin"} />;
     } else {
-      return <Navigate to={"/dashboard"} />;
+      //   depending on if user is nanny or family redirect appopriately
+      if (JSON.parse(localStorage.getItem("isNanny"))) {
+        return <Navigate to={"/dashboard_nanny"} />;
+      } else {
+        return <Navigate to={"/dashboard"} />;
+      }
     }
   }
 

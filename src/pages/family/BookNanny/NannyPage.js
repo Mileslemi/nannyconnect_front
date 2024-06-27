@@ -13,7 +13,6 @@ const nannyModel = {
   hourly_rate: null,
   bio: null,
   verified: false,
-  suspended: false,
   user: null,
   reviews: [],
 };
@@ -198,7 +197,7 @@ const NannyPage = () => {
             disabled={
               !nannyDetail.availabity ||
               !nannyDetail.verified ||
-              nannyDetail.suspended
+              nannyDetail.user?.suspended
             }
           >
             Message {nannyDetail?.user?.first_name}{" "}
@@ -259,12 +258,12 @@ const NannyPage = () => {
                   !availability ||
                   checking ||
                   !nannyDetail.verified ||
-                  nannyDetail.suspended
+                  nannyDetail.user?.suspended
                 }
               >
                 {nannyDetail.availabity &&
                 nannyDetail.verified &&
-                !nannyDetail.suspended
+                !nannyDetail.user?.suspended
                   ? checking
                     ? "Checking..."
                     : "Request"

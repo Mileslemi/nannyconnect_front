@@ -427,3 +427,11 @@ a {
   width: 100%;
   text-align: end;
 }
+
+.complaints_div td p {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  display: inline;
+}

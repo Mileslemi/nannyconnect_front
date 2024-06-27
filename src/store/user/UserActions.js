@@ -106,17 +106,19 @@ export const loadUser =
 
       const userData = response.data;
 
-      if (isNanny) {
-        if (userData["user_type"] !== "nanny") {
-          throw new Error("Invalid Credentials");
+      if (!userData["is_staff"]) {
+        if (isNanny) {
+          if (userData["user_type"] !== "nanny") {
+            throw new Error("Invalid Credentials");
+          } else {
+            localStorage.setItem("isNanny", true);
+          }
         } else {
-          localStorage.setItem("isNanny", true);
-        }
-      } else {
-        if (userData["user_type"] !== "family") {
-          throw new Error("Invalid Credentials");
-        } else {
-          localStorage.setItem("isNanny", false);
+          if (userData["user_type"] !== "family") {
+            throw new Error("Invalid Credentials");
+          } else {
+            localStorage.setItem("isNanny", false);
+          }
         }
       }
 

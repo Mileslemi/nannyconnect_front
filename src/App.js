@@ -14,6 +14,7 @@ import BookingDetail from "./pages/nanny/BookingDetail";
 import FBookingDetail from "./pages/family/FBookingDetail";
 import NannyPage from "./pages/family/BookNanny/NannyPage";
 import MessagingPage from "./components/MessagingPage";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   const dispatch = useDispatch();
@@ -66,6 +67,12 @@ function App() {
             exact
             path="/dashboard_nanny/:pagename"
             element={<NannyDashBoard />}
+          />
+          <Route exact path="/dashboard_admin" element={<AdminDashboard />} />
+          <Route
+            exact
+            path="/dashboard_admin/:pagename"
+            element={<AdminDashboard />}
           />
         </Routes>
       </Router>

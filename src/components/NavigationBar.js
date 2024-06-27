@@ -31,7 +31,11 @@ const NavigationBar = () => {
               <Navbar.Text> {user["username"]}</Navbar.Text>
               <Navbar.Text>
                 Logged in as{" "}
-                {user["user_type"] === "nanny" ? "Nanny" : "Family"}{" "}
+                {user["is_staff"]
+                  ? "Admin"
+                  : user["user_type"] === "nanny"
+                  ? "Nanny"
+                  : "Family"}{" "}
               </Navbar.Text>
             </>
           ) : (
