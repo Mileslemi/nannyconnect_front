@@ -5,6 +5,7 @@ import FamilyProfile from "./FamilyProfile";
 import FamilyBookings from "./FamilyBookings";
 import BookNanny from "./BookNanny/BookNanny";
 import { useSelector } from "react-redux";
+import ChatsPage from "../../components/ChatsPage";
 
 const FamilyDashboard = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -25,6 +26,7 @@ const FamilyDashboard = () => {
   const pages = [
     { name: "Bookings", rep: "bookings", page: <FamilyBookings /> },
     { name: "Book Nanny", rep: "booknanny", page: <BookNanny /> },
+    { name: "Chats", rep: "chats", page: <ChatsPage /> },
     { name: "Profile", rep: "profile", page: <FamilyProfile /> },
   ];
 

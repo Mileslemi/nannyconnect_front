@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import BookingDetail from "./pages/nanny/BookingDetail";
 import FBookingDetail from "./pages/family/FBookingDetail";
 import NannyPage from "./pages/family/BookNanny/NannyPage";
+import MessagingPage from "./components/MessagingPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,6 +43,11 @@ function App() {
           />
           <Route
             exact
+            path="/dashboard/chats/:id"
+            element={<MessagingPage />}
+          />
+          <Route
+            exact
             path="/dashboard/:pagename"
             element={<FamilyDashboard />}
           />
@@ -50,6 +56,11 @@ function App() {
             exact
             path="/dashboard_nanny/requests/:id"
             element={<BookingDetail />}
+          />
+          <Route
+            exact
+            path="/dashboard_nanny/chats/:id"
+            element={<MessagingPage />}
           />
           <Route
             exact

@@ -20,7 +20,6 @@ const RequestedBookings = () => {
         .catch((_) => {})
         .then((response) => {
           if (response && response.status === 200) {
-            console.log(response.data);
             setBookings(response.data);
           }
         });
