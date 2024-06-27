@@ -395,6 +395,7 @@ a {
 
 .chat_content {
   min-height: 66%;
+  max-height: 66%;
   border-bottom: 1px solid #b3cad3;
   margin-bottom: 5px;
   margin-top: 5px;

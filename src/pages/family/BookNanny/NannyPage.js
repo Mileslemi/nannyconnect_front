@@ -44,6 +44,8 @@ const NannyPage = () => {
 
   const [otherDetails, setOtherDetails] = useState(null);
 
+  const [message, setMessage] = useState(null);
+
   async function fetchNannyDetail() {
     try {
       await axios
@@ -91,6 +93,27 @@ const NannyPage = () => {
     }
   }
 
+  async function startChat(e) {
+    e.preventDefault();
+
+    try {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/notifications/`, {
+          sender: userId,
+          receiver: nannyDetail?.user?.id,
+          notification: message,
+        })
+        .catch((_) => {})
+        .then((response) => {
+          if (response && response.status === 200) {
+            setMessage("");
+
+            navigate(`/dashboard/chats/${response.data?.id}`);
+          }
+        });
+    } catch (_) {}
+  }
+
   async function checkAvailability() {
     setChecking(true);
     try {
@@ -102,7 +125,6 @@ const NannyPage = () => {
         })
         .catch((_) => {})
         .then((response) => {
-          console.log(response);
           if (response && response.status === 200) {
             setAvailability(response.data);
           }
@@ -194,16 +216,30 @@ const NannyPage = () => {
             <h4>Meet {nannyDetail?.user?.first_name}</h4>
             <p> {nannyDetail.bio} </p>
           </div>
-          <Button
-            variant="outline-primary"
-            disabled={
-              !nannyDetail.availabity ||
-              !nannyDetail.verified ||
-              nannyDetail.user?.suspended
-            }
-          >
-            Message {nannyDetail?.user?.first_name}
-          </Button>
+          <Form onSubmit={(e) => startChat(e)}>
+            <textarea
+              placeholder="Start Chat ..."
+              name="message"
+              className="form-control"
+              maxLength={256}
+              value={message}
+              required
+              rows={2}
+              onChange={(e) => setMessage(e.target.value.trimStart())}
+            ></textarea>
+            <br />
+            <Button
+              variant="outline-primary"
+              type="submit"
+              disabled={
+                !nannyDetail.availabity ||
+                !nannyDetail.verified ||
+                nannyDetail.user?.suspended
+              }
+            >
+              Message {nannyDetail?.user?.first_name}
+            </Button>
+          </Form>
 
           <div className="nannyactions">
             <Form onSubmit={(e) => handleSubmit(e)}>
