@@ -61,13 +61,20 @@ const FamilyProfile = () => {
 
       // update user
 
+      let userFormData = { ...formData };
+
       if (newImage != null) {
-        setFormData({ ...formData, image: newImage });
+        userFormData = { ...formData, image: newImage };
+      } else {
+        delete userFormData.image;
       }
 
       await axios.put(
         `${process.env.REACT_APP_API_URL}/${formData.username}/`,
-        { ...formData },
+        {
+          ...userFormData,
+          location: formData.location?.id,
+        },
         {
           headers: {
             "Content-Type": "multipart/form-data",

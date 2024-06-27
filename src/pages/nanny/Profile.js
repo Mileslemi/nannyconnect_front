@@ -19,8 +19,11 @@ const nannyModel = {
   },
   nanny: {
     id: null,
+    user: null,
     availabity: false,
     hourly_rate: 0.0,
+    bio: null,
+    verified: false,
   },
   image: null,
 };
@@ -59,24 +62,35 @@ const Profile = () => {
     } else {
       // update location
 
-      await axios.put(
-        `${process.env.REACT_APP_API_URL}/address/${formData.location.id}/`,
-        { ...formData.location }
-      );
+      await axios
+        .put(
+          `${process.env.REACT_APP_API_URL}/address/${formData.location.id}/`,
+          { ...formData.location }
+        )
+        .catch((_) => {});
       // update nanny
-      await axios.put(
-        `${process.env.REACT_APP_API_URL}/nanny/${formData.nanny.id}/`,
-        { ...formData.nanny }
-      );
+      await axios
+        .put(`${process.env.REACT_APP_API_URL}/nanny/${formData.nanny.id}/`, {
+          ...formData.nanny,
+          user: formData.nanny?.user?.id,
+        })
+        .catch((_) => {});
       // update user
 
+      let userFormData = { ...formData };
+
       if (newImage != null) {
-        setFormData({ ...formData, image: newImage });
+        userFormData = { ...formData, image: newImage };
+      } else {
+        delete userFormData.image;
       }
 
       await axios.put(
         `${process.env.REACT_APP_API_URL}/${formData.username}/`,
-        { ...formData },
+        {
+          ...userFormData,
+          location: formData.location?.id,
+        },
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -334,6 +348,29 @@ const Profile = () => {
                 })
               }
             />
+          </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm="4">
+            Bio
+          </Form.Label>
+
+          <Col sm="7">
+            <textarea
+              placeholder="More details ..."
+              name="description"
+              className="form-control"
+              maxLength={512}
+              value={formData.nanny?.bio}
+              rows={5}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  nanny: { ...formData.nanny, bio: e.target.value },
+                })
+              }
+            ></textarea>
           </Col>
         </Form.Group>
 

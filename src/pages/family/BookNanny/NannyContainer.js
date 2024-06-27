@@ -6,14 +6,7 @@ import star from "../../../assets/icons/star.svg";
 import starFill from "../../../assets/icons/star-fill.svg";
 
 const NannyContainer = ({ nanny }) => {
-  const {
-    id,
-    hourly_rate,
-    user,
-    bio,
-
-    reviews,
-  } = nanny;
+  const { id, hourly_rate, user, bio, reviews } = nanny;
 
   const [rating, setRating] = useState(4.7);
 

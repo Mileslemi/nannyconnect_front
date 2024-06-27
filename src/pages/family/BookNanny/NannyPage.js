@@ -51,7 +51,9 @@ const NannyPage = () => {
         .catch((_) => {})
         .then((response) => {
           if (response && response.status === 200) {
+            console.log(response.data);
             setNannyDetail(response.data);
+            setAvailability(nannyDetail.availabity ?? false);
           }
         });
     } catch (_) {}
@@ -200,7 +202,7 @@ const NannyPage = () => {
               nannyDetail.user?.suspended
             }
           >
-            Message {nannyDetail?.user?.first_name}{" "}
+            Message {nannyDetail?.user?.first_name}
           </Button>
 
           <div className="nannyactions">
@@ -255,6 +257,7 @@ const NannyPage = () => {
                 type="submit"
                 variant="success"
                 disabled={
+                  !nannyDetail.availabity ||
                   !availability ||
                   checking ||
                   !nannyDetail.verified ||
