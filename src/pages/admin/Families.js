@@ -56,7 +56,10 @@ const Families = () => {
 
                 <td>{e?.suspended ? "False" : "True"}</td>
                 <td>
-                  <Link as={Button} to={`/dashboard_admin/families/${e.id}`}>
+                  <Link
+                    as={Button}
+                    to={`/dashboard_admin/families/${e.username}`}
+                  >
                     More
                   </Link>
                 </td>
