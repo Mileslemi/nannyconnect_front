@@ -53,7 +53,6 @@ const NannyPage = () => {
         .catch((_) => {})
         .then((response) => {
           if (response && response.status === 200) {
-            console.log(response.data);
             setNannyDetail(response.data);
             setAvailability(nannyDetail.availabity ?? false);
           }
