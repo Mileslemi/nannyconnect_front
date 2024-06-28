@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import FinishVerification from "./FinishVerification";
 import ChatsPage from "../../components/ChatsPage";
+import NannySchedule from "./NannySchedule";
 
 const NannyDashBoard = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -28,7 +29,7 @@ const NannyDashBoard = () => {
     { name: "Bookings", rep: "bookings", page: <Bookings /> },
     { name: "Requests", rep: "requests", page: <RequestedBookings /> },
     { name: "Chats", rep: "chats", page: <ChatsPage /> },
-    { name: "Schedule", rep: "schedule", page: <RequestedBookings /> },
+    { name: "Schedule", rep: "schedule", page: <NannySchedule /> },
     { name: "Profile", rep: "profile", page: <Profile /> },
     {
       name: "A/C Verification",
